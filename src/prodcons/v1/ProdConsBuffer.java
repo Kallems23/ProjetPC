@@ -3,7 +3,7 @@ package prodcons.v1;
 public class ProdConsBuffer implements IProdConsBuffer {
 
 	Message[] mBuffer;
-	int totalMsg;
+	int totalMsg; 
 	int nMessage; // number message
 	int numIn;
 	int numOut;
@@ -14,31 +14,37 @@ public class ProdConsBuffer implements IProdConsBuffer {
 		this.numOut = 0;
 	}
 
-	public boolean notFull() {
+	private boolean notFull() {
 		return nmsg() < this.mBuffer.length;
 	}
 
-	public boolean notEmpty() {
+	private boolean notEmpty() {
 		return nmsg() > 0;
 	}
 
 	@Override
 	// Produce
 	synchronized public void put(Message m) throws InterruptedException {
+		while (!notFull())
+			wait();
 		mBuffer[numIn] = m;
-		numIn = (numIn + 1) % mBuffer.length;
-		this.nMessage += 1;
-		this.totalMsg += 1;
-		m.myMessage = "msg nbr = " + this.totalMsg + " | " + m.myMessage;
+		numIn = (numIn+1)%mBuffer.length;
+		this.nMessage +=1;
+		this.totalMsg +=1;
+		m.myMessage = "msg nbr = "+this.totalMsg + " | " + m.myMessage;
+		notifyAll();// Car des thread pourrait etre en attente de message
 
 	}
 
 	@Override
 	// Consume
 	synchronized public Message get() throws InterruptedException {
+		while (!notEmpty())
+			wait();
 		Message messageOut = mBuffer[numOut];
-		numOut = (numOut + 1) % mBuffer.length;
-		this.nMessage -= 1;
+		numOut = (numOut+1)%mBuffer.length;
+		this.nMessage -=1;
+		notifyAll();// Car des thread pourrait etre en attente de place dans le buffer
 		return messageOut;
 	}
 

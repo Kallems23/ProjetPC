@@ -17,28 +17,17 @@ public class Productor extends Thread {
 	}
 
 	public void run() {
-
 		Random r = new Random();
 		int nbrMessage = (int) r.nextInt(this.minProd, this.maxProd) % 100;
 		for (int i = 0; i < nbrMessage; i++) {
-
-			while (!myBuffer.notFull())
-				try {
-					wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
 			Message newMsg = new Message("prod nbr = " + getId());
 			try {
 				sleep(this.prodTime);
+
 				myBuffer.put(newMsg);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-
-			notifyAll();// Car des thread pourrait etre en attente de message
 
 		}
 	}
