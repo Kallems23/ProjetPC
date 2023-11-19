@@ -1,6 +1,8 @@
 package prodcons.v1;
 
 public class Message {
-	public Message() {
+	String myMessage;
+	public Message(String myMessage) {
+		this.myMessage = myMessage;
 	}
 }
