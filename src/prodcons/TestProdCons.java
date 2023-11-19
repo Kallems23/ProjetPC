@@ -44,8 +44,8 @@ public class TestProdCons {
 			nProd = 15;
 			nCons = 10;
 			bufSz = 3;
-			prodTime = 10;
-			consTime = 10;
+			prodTime = 100;
+			consTime = 100;
 			minProd = 5;
 			maxProd = 500;
 		}
@@ -57,10 +57,10 @@ public class TestProdCons {
 
 		ProdConsBuffer myProConsBuffer = new ProdConsBuffer(testA.bufSz);
 		for(int i = 0; i<testA.nProd;i++) {
-			Productor productor = new Productor(myProConsBuffer,testA.minProd,testA.maxProd);
+			Productor productor = new Productor(myProConsBuffer,testA.minProd,testA.maxProd,testA.prodTime);
 		}
 		for(int i = 0; i<testA.nCons;i++) {
-			Consummer consummer = new Consummer (myProConsBuffer);
+			Consummer consummer = new Consummer (myProConsBuffer,testA.consTime);
 		}
 
 	}
