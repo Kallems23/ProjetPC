@@ -2,10 +2,12 @@ package prodcons;
 
 import java.io.Console;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.function.Consumer;
 
-import prodcons.v1.*;
+import prodcons.v2.*;
 
 public class TestProdCons {
 
@@ -48,20 +50,38 @@ public class TestProdCons {
 			consTime = 10;
 			minProd = 100;
 			maxProd = 500;
-			}
+		}
 
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		TestProdCons testA = new TestProdCons();
+		ArrayList<Productor> prodL = new ArrayList<Productor>();
+		ArrayList<Consummer> consL = new ArrayList<Consummer>();
 
 		ProdConsBuffer myProConsBuffer = new ProdConsBuffer(testA.bufSz);
 		for (int i = 0; i < testA.nProd; i++) {
 			Productor productor = new Productor(myProConsBuffer, testA.minProd, testA.maxProd, testA.prodTime);
+			prodL.add(productor);
 		}
 		for (int i = 0; i < testA.nCons; i++) {
 			Consummer consummer = new Consummer(myProConsBuffer, testA.consTime);
+			consL.add(consummer);
 		}
+		for (Iterator<Productor> iterator = prodL.iterator(); iterator.hasNext();) {
+			Productor productor = (Productor) iterator.next();
+			productor.join();
+		}
+		myProConsBuffer.finishProducing = true;
+
+		while (myProConsBuffer.nmsg() != 0)
+			System.out.println(myProConsBuffer.nmsg() != 0);
+		;
+		for (Iterator<Consummer> iterator = consL.iterator(); iterator.hasNext();) {
+			Consummer consummer = (Consummer) iterator.next();
+			consummer.interrupt();
+		}
+		System.out.println("hey it work!");
 
 	}
 

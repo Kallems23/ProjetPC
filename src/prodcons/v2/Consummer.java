@@ -1,4 +1,4 @@
-package prodcons.v1;
+package prodcons.v2;
 
 public class Consummer extends Thread {
 	ProdConsBuffer myBuffer;
@@ -13,17 +13,15 @@ public class Consummer extends Thread {
 	}
 
 	public void run() {
-		while (true) {
+		while (!myBuffer.finishProducing || myBuffer.nmsg() != 0) {
 			try {
 				Message msgRead = this.myBuffer.get();
 				System.out.print(msgRead.myMessage + " | cons nbr= " + this.myID + "\n");
 				sleep(consTime);
 
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//It is expected to be interrupted to end the thread
 			}
-
 		}
 	}
 }

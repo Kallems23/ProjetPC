@@ -1,4 +1,4 @@
-package prodcons.v1;
+package prodcons.v2;
 
 import java.util.Random;
 
@@ -25,7 +25,6 @@ public class Productor extends Thread {
 			Message newMsg = new Message("prod nbr = " + this.myID);
 			try {
 				sleep(this.prodTime);
-
 				myBuffer.put(newMsg);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
