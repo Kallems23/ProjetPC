@@ -31,7 +31,7 @@ public class ProdConsBuffer implements IProdConsBuffer {
 		numIn = (numIn+1)%mBuffer.length;
 		this.nMessage +=1;
 		this.totalMsg +=1;
-		m.myMessage = "msg nbr = "+this.totalMsg + " | " + m.myMessage;
+		m.myMessage = "msg nbr = "+ totmsg()+ " | " + m.myMessage;
 		notifyAll();// Car des thread pourrait etre en attente de message
 
 	}
