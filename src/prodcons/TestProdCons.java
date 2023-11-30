@@ -8,6 +8,8 @@ import java.util.Properties;
 import java.util.function.Consumer;
 
 import prodcons.v2.*;
+import prodcons.v2.ProdConsBuffer;
+import prodcons.v3.*;
 
 public class TestProdCons {
 
@@ -54,35 +56,69 @@ public class TestProdCons {
 
 	}
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void testV2() throws InterruptedException {
 		TestProdCons testA = new TestProdCons();
-		ArrayList<Productor> prodL = new ArrayList<Productor>();
-		ArrayList<Consummer> consL = new ArrayList<Consummer>();
+		ArrayList<prodcons.v2.Productor> prodL = new ArrayList<prodcons.v2.Productor>();
+		ArrayList<prodcons.v2.Consummer> consL = new ArrayList<prodcons.v2.Consummer>();
 
-		ProdConsBuffer myProConsBuffer = new ProdConsBuffer(testA.bufSz);
+		prodcons.v2.ProdConsBuffer myProConsBuffer = new prodcons.v2.ProdConsBuffer(testA.bufSz);
 		for (int i = 0; i < testA.nProd; i++) {
-			Productor productor = new Productor(myProConsBuffer, testA.minProd, testA.maxProd, testA.prodTime);
+			prodcons.v2.Productor productor = new prodcons.v2.Productor(myProConsBuffer, testA.minProd, testA.maxProd, testA.prodTime);
 			prodL.add(productor);
 		}
 		for (int i = 0; i < testA.nCons; i++) {
-			Consummer consummer = new Consummer(myProConsBuffer, testA.consTime);
+			prodcons.v2.Consummer consummer = new prodcons.v2.Consummer(myProConsBuffer, testA.consTime);
 			consL.add(consummer);
 		}
-		for (Iterator<Productor> iterator = prodL.iterator(); iterator.hasNext();) {
-			Productor productor = (Productor) iterator.next();
+		for (Iterator<prodcons.v2.Productor> iterator = prodL.iterator(); iterator.hasNext();) {
+			prodcons.v2.Productor productor = (prodcons.v2.Productor) iterator.next();
 			productor.join();
 		}
 		myProConsBuffer.finishProducing = true;
 
 		while (myProConsBuffer.nmsg() != 0)
 			System.out.println(myProConsBuffer.nmsg() != 0);
-		;
-		for (Iterator<Consummer> iterator = consL.iterator(); iterator.hasNext();) {
-			Consummer consummer = (Consummer) iterator.next();
+
+		for (Iterator<prodcons.v2.Consummer> iterator = consL.iterator(); iterator.hasNext();) {
+			prodcons.v2.Consummer consummer = (prodcons.v2.Consummer) iterator.next();
 			consummer.interrupt();
 		}
 		System.out.println("hey it work!");
 
+	}
+	public static void testV3() throws InterruptedException {
+		TestProdCons testA = new TestProdCons();
+		ArrayList<prodcons.v3.Productor> prodL = new ArrayList<prodcons.v3.Productor>();
+		ArrayList<prodcons.v3.Consummer> consL = new ArrayList<prodcons.v3.Consummer>();
+
+		prodcons.v3.ProdConsBuffer myProConsBuffer = new prodcons.v3.ProdConsBuffer(testA.bufSz);
+		for (int i = 0; i < testA.nProd; i++) {
+			prodcons.v3.Productor productor = new prodcons.v3.Productor(myProConsBuffer, testA.minProd, testA.maxProd, testA.prodTime);
+			prodL.add(productor);
+		}
+		for (int i = 0; i < testA.nCons; i++) {
+			prodcons.v3.Consummer consummer = new prodcons.v3.Consummer(myProConsBuffer, testA.consTime);
+			consL.add(consummer);
+		}
+		for (Iterator<prodcons.v3.Productor> iterator = prodL.iterator(); iterator.hasNext();) {
+			prodcons.v3.Productor productor = (prodcons.v3.Productor) iterator.next();
+			productor.join();
+		}
+		myProConsBuffer.finishProducing = true;
+
+		while (myProConsBuffer.nmsg() != 0)
+			System.out.println(myProConsBuffer.nmsg() != 0);
+
+		for (Iterator<prodcons.v3.Consummer> iterator = consL.iterator(); iterator.hasNext();) {
+			prodcons.v3.Consummer consummer = (prodcons.v3.Consummer) iterator.next();
+			consummer.interrupt();
+		}
+		System.out.println("hey it work!");
+
+	}
+	public static void main(String[] args) throws InterruptedException {
+		//testV2();
+		testV3();
 	}
 
 }
