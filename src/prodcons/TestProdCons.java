@@ -10,6 +10,8 @@ import java.util.function.Consumer;
 import prodcons.v2.*;
 import prodcons.v2.ProdConsBuffer;
 import prodcons.v3.*;
+import prodcons.v5.*;
+import prodcons.v6.*;
 
 public class TestProdCons {
 
@@ -63,7 +65,8 @@ public class TestProdCons {
 
 		prodcons.v2.ProdConsBuffer myProConsBuffer = new prodcons.v2.ProdConsBuffer(testA.bufSz);
 		for (int i = 0; i < testA.nProd; i++) {
-			prodcons.v2.Productor productor = new prodcons.v2.Productor(myProConsBuffer, testA.minProd, testA.maxProd, testA.prodTime);
+			prodcons.v2.Productor productor = new prodcons.v2.Productor(myProConsBuffer, testA.minProd, testA.maxProd,
+					testA.prodTime);
 			prodL.add(productor);
 		}
 		for (int i = 0; i < testA.nCons; i++) {
@@ -86,6 +89,7 @@ public class TestProdCons {
 		System.out.println("hey it work!");
 
 	}
+
 	public static void testV3() throws InterruptedException {
 		TestProdCons testA = new TestProdCons();
 		ArrayList<prodcons.v3.Productor> prodL = new ArrayList<prodcons.v3.Productor>();
@@ -93,7 +97,8 @@ public class TestProdCons {
 
 		prodcons.v3.ProdConsBuffer myProConsBuffer = new prodcons.v3.ProdConsBuffer(testA.bufSz);
 		for (int i = 0; i < testA.nProd; i++) {
-			prodcons.v3.Productor productor = new prodcons.v3.Productor(myProConsBuffer, testA.minProd, testA.maxProd, testA.prodTime);
+			prodcons.v3.Productor productor = new prodcons.v3.Productor(myProConsBuffer, testA.minProd, testA.maxProd,
+					testA.prodTime);
 			prodL.add(productor);
 		}
 		for (int i = 0; i < testA.nCons; i++) {
@@ -116,9 +121,64 @@ public class TestProdCons {
 		System.out.println("hey it work!");
 
 	}
-	public static void main(String[] args) throws InterruptedException {
-		//testV2();
-		testV3();
+
+	public static void testV5() throws InterruptedException {
+		TestProdCons testA = new TestProdCons();
+		ArrayList<prodcons.v5.Productor> prodL = new ArrayList<prodcons.v5.Productor>();
+		ArrayList<prodcons.v5.Consummer> consL = new ArrayList<prodcons.v5.Consummer>();
+
+		prodcons.v5.ProdConsBuffer myProConsBuffer = new prodcons.v5.ProdConsBuffer(testA.bufSz);
+		for (int i = 0; i < testA.nProd; i++) {
+			prodcons.v5.Productor productor = new prodcons.v5.Productor(myProConsBuffer, testA.minProd, testA.maxProd,
+					testA.prodTime);
+			prodL.add(productor);
+		}
+		for (int i = 0; i < testA.nCons; i++) {
+			prodcons.v5.Consummer consummer = new prodcons.v5.Consummer(myProConsBuffer, testA.consTime);
+			consL.add(consummer);
+		}
+		for (Iterator<prodcons.v5.Productor> iterator = prodL.iterator(); iterator.hasNext();) {
+			prodcons.v5.Productor productor = (prodcons.v5.Productor) iterator.next();
+			productor.join();
+		}
+
+		while (myProConsBuffer.nmsg() != 0)
+			System.out.println(myProConsBuffer.nmsg() != 0);
+
 	}
+
+
+	public static void testV6() throws InterruptedException {
+		TestProdCons testA = new TestProdCons();
+		ArrayList<prodcons.v6.Productor> prodL = new ArrayList<prodcons.v6.Productor>();
+		ArrayList<prodcons.v6.Consummer> consL = new ArrayList<prodcons.v6.Consummer>();
+
+		prodcons.v6.ProdConsBuffer myProConsBuffer = new prodcons.v6.ProdConsBuffer(testA.bufSz);
+		for (int i = 0; i < testA.nProd; i++) {
+			prodcons.v6.Productor productor = new prodcons.v6.Productor(myProConsBuffer, testA.minProd, testA.maxProd,
+					testA.prodTime);
+			prodL.add(productor);
+		}
+		for (int i = 0; i < testA.nCons; i++) {
+			prodcons.v6.Consummer consummer = new prodcons.v6.Consummer(myProConsBuffer, testA.consTime);
+			consL.add(consummer);
+		}
+		for (Iterator<prodcons.v6.Productor> iterator = prodL.iterator(); iterator.hasNext();) {
+			prodcons.v6.Productor productor = (prodcons.v6.Productor) iterator.next();
+			productor.join();
+		}
+
+		while (myProConsBuffer.nmsg() != 0)
+			System.out.println(myProConsBuffer.nmsg() != 0);
+
+
+	}
+
+	public static void main(String[] args) throws InterruptedException {
+		// testV2();
+		// testV3();
+		//testV5();
+		testV6();
+		}
 
 }
