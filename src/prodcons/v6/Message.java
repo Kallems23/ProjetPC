@@ -15,10 +15,15 @@ public class Message {
 		nexemplairesrestants = nexemplaires;
 	}
 
-	public void read() {
+	/**
+	 * @return
+	 */
+	public boolean read() {
 		nexemplairesrestants--;
-		if (nexemplairesrestants == 0)
-			mbloquant.release(nexemplaires);
+		if (nexemplairesrestants == 0){
+			mbloquant.release(nexemplaires+10);
+			return true;
+		}
 		else {
 			try {
 				mbloquant.acquire();
@@ -26,6 +31,7 @@ public class Message {
 				e.printStackTrace();
 			}
 			mbloquant.release();
+			return false;
 		}
 
 	}

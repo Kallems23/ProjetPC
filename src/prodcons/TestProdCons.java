@@ -47,13 +47,13 @@ public class TestProdCons {
 				+ "#######################################\n");
 				//@formatter:on
 
-			nProd = 15;
-			nCons = 10;
-			bufSz = 3;
+			nProd = 5;
+			nCons = 3;
+			bufSz = 100;
 			prodTime = 10;
 			consTime = 10;
-			minProd = 100;
-			maxProd = 500;
+			minProd = 5;
+			maxProd = 20;
 		}
 
 	}

@@ -32,21 +32,29 @@ public class ProdConsBuffer implements IProdConsBuffer {
 		this.nMessage +=1;
 		this.totalMsg +=1;
 		m.myMessage = "msg nbr = "+this.totalMsg + " | " + m.myMessage;
-		notifyAll();// Car des thread pourrait etre en attente de message
-
+		notifyAll();
 	}
 
 	@Override
 	// Consume
 	synchronized public Message get() throws InterruptedException {
-		while (!notEmpty())
+		while (!notEmpty()) {
+
+			System.out.println("wait");
 			wait();
+		}
 		Message messageOut = mBuffer[numOut];
-		numOut = (numOut+1)%mBuffer.length;
-		this.nMessage -=1;
 		notifyAll();// Car des thread pourrait etre en attente de place dans le buffer
 		return messageOut;
 	}
+
+	synchronized public void endRead() throws InterruptedException {
+			numOut = (numOut+1)%mBuffer.length;
+			this.nMessage -=1;
+			notifyAll();
+			return;
+	}
+
 
 	@Override
 	public int nmsg() {

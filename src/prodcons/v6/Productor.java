@@ -25,6 +25,7 @@ public class Productor extends Thread {
 				sleep(this.prodTime);
 
 				myBuffer.put(newMsg);
+				newMsg.mbloquant.acquire();
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
