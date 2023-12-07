@@ -19,6 +19,7 @@ public class Consummer extends Thread {
 				Random r = new Random();
 				int get = (int) r.nextInt(0, 2);
 				if (get == 1) {
+					sleep(100);
 					Message msgRead = this.myBuffer.get();
 					System.out.print(msgRead.myMessage + " | cons nbr= " + getId() + "\n");
 

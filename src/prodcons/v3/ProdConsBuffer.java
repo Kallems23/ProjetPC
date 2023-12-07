@@ -31,7 +31,6 @@ public class ProdConsBuffer implements IProdConsBuffer {
 	public void put(Message m) throws InterruptedException {
 		fifo.release();
 		synchronized (this) {
-
 			while (!notFull())
 				wait();
 			mBuffer[numIn] = m;
@@ -53,7 +52,7 @@ public class ProdConsBuffer implements IProdConsBuffer {
 
 			while (!notEmpty())
 				wait();
-			 messageOut = mBuffer[numOut];
+			messageOut = mBuffer[numOut];
 			numOut = (numOut + 1) % mBuffer.length;
 			this.nMessage -= 1;
 			this.totalMsg += 1;

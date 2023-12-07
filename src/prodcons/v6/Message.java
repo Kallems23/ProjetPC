@@ -19,12 +19,13 @@ public class Message {
 	 * @return
 	 */
 	public boolean read() {
-		nexemplairesrestants--;
-		if (nexemplairesrestants == 0){
-			mbloquant.release(nexemplaires+10);
-			return true;
+		synchronized (this) { // Pour sécurisé l'incrementation
+			nexemplairesrestants--;
 		}
-		else {
+		if (nexemplairesrestants == 0) {
+			mbloquant.release(nexemplaires + 10);
+			return true;
+		} else {
 			try {
 				mbloquant.acquire();
 			} catch (InterruptedException e) {

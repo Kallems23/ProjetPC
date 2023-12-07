@@ -1,7 +1,5 @@
 package prodcons.v5;
 
-import java.util.Iterator;
-
 public class ProdConsBuffer implements IProdConsBuffer {
 
 	Message[] mBuffer;
@@ -46,6 +44,8 @@ public class ProdConsBuffer implements IProdConsBuffer {
 		while (!notEmpty() && nprio == 0)
 			wait();
 		Message messageOut = mBuffer[numOut];
+		if (messageOut == null)
+			System.err.println("msg null");
 		numOut = (numOut + 1) % mBuffer.length;
 		this.nMessage -= 1;
 		notifyAll();// Car des thread pourrait etre en attente de place dans le buffer

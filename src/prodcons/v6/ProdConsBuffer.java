@@ -3,7 +3,7 @@ package prodcons.v6;
 public class ProdConsBuffer implements IProdConsBuffer {
 
 	Message[] mBuffer;
-	int totalMsg; 
+	int totalMsg;
 	int nMessage; // number message
 	int numIn;
 	int numOut;
@@ -28,10 +28,10 @@ public class ProdConsBuffer implements IProdConsBuffer {
 		while (!notFull())
 			wait();
 		mBuffer[numIn] = m;
-		numIn = (numIn+1)%mBuffer.length;
-		this.nMessage +=1;
-		this.totalMsg +=1;
-		m.myMessage = "msg nbr = "+this.totalMsg + " | " + m.myMessage;
+		numIn = (numIn + 1) % mBuffer.length;
+		this.nMessage += 1;
+		this.totalMsg += 1;
+		m.myMessage = "msg nbr = " + this.totalMsg + " | " + m.myMessage;
 		notifyAll();
 	}
 
@@ -49,12 +49,11 @@ public class ProdConsBuffer implements IProdConsBuffer {
 	}
 
 	synchronized public void endRead() throws InterruptedException {
-			numOut = (numOut+1)%mBuffer.length;
-			this.nMessage -=1;
-			notifyAll();
-			return;
+		numOut = (numOut + 1) % mBuffer.length;
+		this.nMessage -= 1;
+		notifyAll();
+		return;
 	}
-
 
 	@Override
 	public int nmsg() {

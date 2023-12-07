@@ -1,17 +1,9 @@
 package prodcons;
 
-import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
-import java.util.function.Consumer;
-
-import prodcons.v2.*;
-import prodcons.v2.ProdConsBuffer;
-import prodcons.v3.*;
-import prodcons.v5.*;
-import prodcons.v6.*;
 
 public class TestProdCons {
 
@@ -142,11 +134,16 @@ public class TestProdCons {
 			productor.join();
 		}
 
-		while (myProConsBuffer.nmsg() != 0)
-			System.out.println(myProConsBuffer.nmsg() != 0);
+//		while (myProConsBuffer.nmsg() != 0)
+//			System.out.println(myProConsBuffer.nmsg() != 0);
 
+		while (myProConsBuffer.nmsg() != 0) {
+			System.getProperties();
+		}
+
+		Thread.sleep(1000);
+		System.out.println("That's work");
 	}
-
 
 	public static void testV6() throws InterruptedException {
 		TestProdCons testA = new TestProdCons();
@@ -168,17 +165,22 @@ public class TestProdCons {
 			productor.join();
 		}
 
-		while (myProConsBuffer.nmsg() != 0)
-			System.out.println(myProConsBuffer.nmsg() != 0);
+//		while (myProConsBuffer.nmsg() != 0)
+//			System.out.println(myProConsBuffer.nmsg() != 0);
 
+		while (myProConsBuffer.nmsg() != 0) {
+			System.getProperties();
+		}
 
+		Thread.sleep(1000);
+		System.out.println("That's work");
 	}
 
 	public static void main(String[] args) throws InterruptedException {
 		// testV2();
 		// testV3();
-		//testV5();
+		// testV5();
 		testV6();
-		}
+	}
 
 }

@@ -20,7 +20,7 @@ public class Consummer extends Thread {
 				sleep(consTime);
 
 			} catch (InterruptedException e) {
-				//It is expected to be interrupted to end the thread
+				// It is expected to be interrupted to end the thread
 			}
 		}
 	}
