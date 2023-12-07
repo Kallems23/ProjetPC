@@ -11,14 +11,16 @@ public class Consummer extends Thread {
 	}
 
 	public void run() {
-		try {
-			Message msgRead = this.myBuffer.get();
-			System.out.print(msgRead.myMessage + " | cons nbr= " + getId() + "\n");
-			sleep(consTime);
+		while (true) {
+			try {
+				Message msgRead = this.myBuffer.get();
+				System.out.print(msgRead.myMessage + " | cons nbr= " + getId() + "\n");
+				sleep(consTime);
 
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}

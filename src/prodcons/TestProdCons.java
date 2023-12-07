@@ -49,7 +49,31 @@ public class TestProdCons {
 		}
 
 	}
+	public static void testV1() throws InterruptedException {
+		TestProdCons testA = new TestProdCons();
+		ArrayList<prodcons.v1.Productor> prodL = new ArrayList<prodcons.v1.Productor>();
+		ArrayList<prodcons.v1.Consummer> consL = new ArrayList<prodcons.v1.Consummer>();
 
+		prodcons.v1.ProdConsBuffer myProConsBuffer = new prodcons.v1.ProdConsBuffer(testA.bufSz);
+		for (int i = 0; i < testA.nProd; i++) {
+			prodcons.v1.Productor productor = new prodcons.v1.Productor(myProConsBuffer, testA.minProd, testA.maxProd,
+					testA.prodTime);
+			prodL.add(productor);
+		}
+		for (int i = 0; i < testA.nCons; i++) {
+			prodcons.v1.Consummer consummer = new prodcons.v1.Consummer(myProConsBuffer, testA.consTime);
+			consL.add(consummer);
+		}
+		for (Iterator<prodcons.v1.Productor> iterator = prodL.iterator(); iterator.hasNext();) {
+			prodcons.v1.Productor productor = (prodcons.v1.Productor) iterator.next();
+			productor.join();
+		}
+
+		Thread.sleep(1000);
+		System.out.println("hey it work!");//not garented to be printed after the message
+
+	}
+	
 	public static void testV2() throws InterruptedException {
 		TestProdCons testA = new TestProdCons();
 		ArrayList<prodcons.v2.Productor> prodL = new ArrayList<prodcons.v2.Productor>();
@@ -179,13 +203,14 @@ public class TestProdCons {
 	}
 
 	public static void main(String[] args) throws InterruptedException {
+		testV1();
 		// testV2();
 		// testV3();
 		 //testV5();
-		testV6();
+		//testV6();
 		
-		for(int i = 0; i<10;i++)
-			testV6();
+		//for(int i = 0; i<10;i++)
+		//	testV6();
 	}
 
 }
