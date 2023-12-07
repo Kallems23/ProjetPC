@@ -39,9 +39,9 @@ public class TestProdCons {
 				+ "#######################################\n");
 				//@formatter:on
 
-			nProd = 5;
-			nCons = 3;
-			bufSz = 100;
+			nProd = 15;
+			nCons = 10;
+			bufSz = 3;
 			prodTime = 10;
 			consTime = 10;
 			minProd = 5;
@@ -140,8 +140,8 @@ public class TestProdCons {
 		while (myProConsBuffer.nmsg() != 0) {
 			System.getProperties();
 		}
-
 		Thread.sleep(1000);
+		//Will only print if the buffer is empty, it doesn't mean that the consummer are finished
 		System.out.println("That's work");
 	}
 
@@ -173,14 +173,19 @@ public class TestProdCons {
 		}
 
 		Thread.sleep(1000);
+		//Will only print if the buffer is empty, it doesn't mean that the consummer are finished
 		System.out.println("That's work");
+		return;
 	}
 
 	public static void main(String[] args) throws InterruptedException {
 		// testV2();
 		// testV3();
-		// testV5();
+		 //testV5();
 		testV6();
+		
+		for(int i = 0; i<10;i++)
+			testV6();
 	}
 
 }

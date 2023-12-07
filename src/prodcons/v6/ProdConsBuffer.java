@@ -40,7 +40,7 @@ public class ProdConsBuffer implements IProdConsBuffer {
 	synchronized public Message get() throws InterruptedException {
 		while (!notEmpty()) {
 
-			System.out.println("wait");
+			//System.out.println("wait");
 			wait();
 		}
 		Message messageOut = mBuffer[numOut];

@@ -23,7 +23,7 @@ public class Message {
 			nexemplairesrestants--;
 		}
 		if (nexemplairesrestants == 0) {
-			mbloquant.release(nexemplaires + 10);
+			mbloquant.release(nexemplaires);
 			return true;
 		} else {
 			try {
